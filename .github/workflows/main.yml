@@ -1,29 +1,33 @@
 
-name: Update
-
+name: Script
+# on: workflow_dispatch
 on:
   push:
-    branches: main
+    branches:
+      - main
   schedule:
-    - cron: "0 */1 * * *"
+    - cron: "*/15 * * * *"
 
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Install
-        run: yarn
-      - name: Update
-        run: node main.js
-        env:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit and push if changed
-        run: |-
-          git diff
-          git config user.name "${GITHUB_ACTOR}"
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner.
+      - name: PHP Runner
+        uses: franzliedke/gh-action-php@0.3.0
+
+      - name: execute php script # run the script.php
+        run: |
+          php script.php isyuricunha ${{ secrets.flx_token }} ${{ secrets.telegram_api }} ${{ secrets.chat_id}}
+      - name: commit files
+        run: |
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git pull
+          git config user.name "${GITHUB_ACTOR}"
           git add -A
-          git commit -m "🤖 Auto update README" || exit 0
-          git push
+          git commit -m "run script.php" -a
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
