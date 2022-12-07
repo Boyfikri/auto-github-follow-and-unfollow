@@ -3,7 +3,7 @@ Follow and unfollow users automatically
 
 [![Script](https://github.com/isyuricunha/github-auto-follow-and-unfollow/actions/workflows/main.yml/badge.svg)](https://github.com/isyuricunha/github-auto-follow-and-unfollow/actions/workflows/main.yml)
 ### Run details
-- Last run `Wed, 07 Dec 2022 09:50:01 +0000`
+- Last run `Wed, 07 Dec 2022 10:13:01 +0000`
 - X-RateLimit-Used: `0`
 - X-RateLimit-Limit: `5000`
 
